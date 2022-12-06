@@ -26,6 +26,12 @@ new_image = pygame.image.load('image_normal.png').convert_alpha()
 image_normal = pygame.transform.scale(new_image, (a_normal, b_normal))
 new_image = pygame.image.load('image_hard.png').convert_alpha()
 image_hard = pygame.transform.scale(new_image, (a_hard, b_hard))
+new_image = pygame.image.load('level_1.png').convert_alpha() #Andrey
+image_level_1 = pygame.transform.scale(new_image, (a_level_1, b_level_1))
+new_image = pygame.image.load('level_2.png').convert_alpha()
+image_level_2 = pygame.transform.scale(new_image, (a_level_2, b_level_2))
+new_image = pygame.image.load('level_3.png').convert_alpha()
+image_level_3 = pygame.transform.scale(new_image, (a_level_3, b_level_3))
 
 pygame.display.update()
 clock = pygame.time.Clock()
@@ -63,6 +69,8 @@ flag_game = False
 flag_easy = True
 flag_normal = False
 flag_hard = False
+flag_level_1 = False #Andrey
+l = 0
 flag_folstart_shot = True
 
 while not finished:
@@ -97,7 +105,8 @@ while not finished:
                 (coord_mouse[1] <= y_play + b_play):
             coord_mouse = coord_default
             flag_1 = False
-            flag_game = True
+            flag_level_1 = True #Andrey
+            #flag_game = True
 
         if (coord[0] >= parametrs[0] / 2 - a_options / 2) and \
                 (coord[0] <= parametrs[0] / 2 + a_options / 2) and \
@@ -215,7 +224,17 @@ while not finished:
             flag_2 = False
     ''''''
 
+    if flag_level_1:
+        l += 1
+        if l < time_level_1:
+            screen.fill(ORANGE)
+            rect(screen, BLACK, (0, 0, parametrs[0], parametrs[1]), frame_width)
+            screen.blit(image_level_1, (parametrs[0] / 2 - a_level_1 / 2, parametrs[1] / 2 - b_level_1 / 2))
+        else:
+            flag_game = True    
+    
     '''Экран игры'''
+
     if flag_game:
         screen.fill(BLACK) # Дисплей в цвет
         #screen.blit(image_1, (0, 0)) # Отображение картинки

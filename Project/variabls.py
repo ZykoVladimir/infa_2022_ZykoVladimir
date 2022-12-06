@@ -11,6 +11,7 @@ WHITE = (255, 255, 255)
 DARK_ORANGE = (255, 140, 0)
 DARK_RED = (139, 0, 0)
 DARK_GREEN = (0, 100, 0)
+ORANGE = (255, 157, 10)
 
 k = 3 # количество мишеней
 time_min = 2 * parametrs[3] # минимальное время появления бомбы
@@ -87,6 +88,18 @@ y_hard = (parametrs[1] - 3 * b_easy) * 3 / 4 + 2 * b_easy
 a_level = 200
 b_level = 50
 y_level = 500
+
+a_level_1 = 320
+b_level_1 = 80
+time_level_1 = 4 * parametrs[3]
+
+a_level_2 = a_level_1
+b_level_2 = b_level_1
+time_level_2 = time_level_1
+
+a_level_3 = a_level_1
+b_level_3 = b_level_1
+time_level_3 = time_level_1
 
 coord_default = (-100, -100)
 coord = coord_default
