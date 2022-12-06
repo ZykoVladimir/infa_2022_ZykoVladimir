@@ -101,6 +101,8 @@ a_level_3 = a_level_1
 b_level_3 = b_level_1
 time_level_3 = time_level_1
 
+frame_width = 20 # ширина черной рамки в заставке LEVEL
+
 coord_default = (-100, -100)
 coord = coord_default
 coord_mouse = coord_default
