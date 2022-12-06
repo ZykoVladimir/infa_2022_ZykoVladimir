@@ -26,7 +26,7 @@ new_image = pygame.image.load('image_normal.png').convert_alpha()
 image_normal = pygame.transform.scale(new_image, (a_normal, b_normal))
 new_image = pygame.image.load('image_hard.png').convert_alpha()
 image_hard = pygame.transform.scale(new_image, (a_hard, b_hard))
-new_image = pygame.image.load('level_1.png').convert_alpha() #Andrey
+new_image = pygame.image.load('level_1.png').convert_alpha()
 image_level_1 = pygame.transform.scale(new_image, (a_level_1, b_level_1))
 new_image = pygame.image.load('level_2.png').convert_alpha()
 image_level_2 = pygame.transform.scale(new_image, (a_level_2, b_level_2))
@@ -72,6 +72,8 @@ flag_hard = False
 flag_level_1 = False #Andrey
 l = 0
 flag_folstart_shot = True
+flag_movement_gun_left = False
+flag_movement_gun_right = False
 
 while not finished:
     clock.tick(parametrs[3])
@@ -234,7 +236,6 @@ while not finished:
             flag_game = True    
     
     '''Экран игры'''
-
     if flag_game:
         screen.fill(BLACK) # Дисплей в цвет
         #screen.blit(image_1, (0, 0)) # Отображение картинки
@@ -309,8 +310,14 @@ while not finished:
             zag_right = False
         if nag_left or zag_left:
             gun.coord -= [gun.speed, 0]
+            flag_movement_gun_left = True
+        else:
+            flag_movement_gun_left = False
         if nag_right or zag_right:
             gun.coord += [gun.speed, 0]
+            flag_movement_gun_right = True
+        else:
+            flag_movement_gun_right = False
         ''''''
 
         '''Модуль смены координат всех компонент программы'''
@@ -363,7 +370,8 @@ while not finished:
         for i in range(k):
             time[i] -= 1
             if time[i] <= 0 and len(goals) == k:
-                bombs.append(Bomb(goals[i], gun, rad_bomb, speed_bomb, screen))
+                bombs.append(Bomb(goals[i], gun, rad_bomb, speed_bomb, screen,
+                                  flag_movement_gun_left, flag_movement_gun_right))
                 time[i] = randint(time_min, time_max)
         ''''''
 

@@ -43,7 +43,7 @@ speed_rockets = 3 # скорость ракеты
 rad_shots = 5 # радиус выстрела
 speed_shots = 0.12 # скорость выстрела
 rad_bomb = 5 # радиус бомбы
-speed_bomb = 0.01 # скорость бомбы
+speed_bomb = 3 # скорость бомбы
 rad_rockets_anim = 5 # радиус анимации ракет
 rasst_rockets_anim = 10 # расстояние между анимацией ракет
 a_calibers = 4 # ширина калибра
@@ -59,7 +59,7 @@ rasst_gr_gun = 10 # расстояние пушки до нижней грани
 coord_default = (-100, -100)
 
 '''Э'''
-thickness = 3
+thickness = 2
 
 a_name = 500
 b_name = 100

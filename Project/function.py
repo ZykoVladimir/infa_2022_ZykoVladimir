@@ -124,12 +124,25 @@ def chek_bombs(bombs_f, gun_f):
 # Bomb
 class Bomb:
     '''Бомба (мишень, пушка, радиус, скорость, Э)'''
-    def __init__(self, goal, gun, rad, speed_bomb, screen):
+    def __init__(self, goal, gun, rad, speed, screen, flag_moverment_gun_left, flag_moverment_gun_right):
         self.screen = screen
         self.rad = rad
-        self.speed_bomb = speed_bomb
-        self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed_bomb,
-                              ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed_bomb])
+        self.randint = 1
+        self.speed = speed / ((abs(((gun.a / 2) + gun.coord[0] - goal.coord[0])))**2 +
+                              (abs(((gun.b / 2) + gun.coord[1] - goal.coord[1])))**2)**0.5
+        if self.randint == 0:
+            self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed,
+                              ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
+        if self.randint == 1:
+            if flag_moverment_gun_left:
+                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed - gun.speed,
+                                  ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
+            if flag_moverment_gun_right:
+                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed + gun.speed,
+                                  ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
+            if not flag_moverment_gun_right and not flag_moverment_gun_right:
+                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed,
+                              ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
         self.coord = np.array([(goal.coord[0] + (goal.a / 2)), (goal.coord[1] + (goal.b / 2))])
 
 
