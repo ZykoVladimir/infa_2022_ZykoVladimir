@@ -127,7 +127,7 @@ class Bomb:
     def __init__(self, goal, gun, rad, speed, screen, flag_moverment_gun_left, flag_moverment_gun_right):
         self.screen = screen
         self.rad = rad
-        self.randint = 1
+        self.randint = randint(0, 1)
         self.speed = speed / ((abs(((gun.a / 2) + gun.coord[0] - goal.coord[0])))**2 +
                               (abs(((gun.b / 2) + gun.coord[1] - goal.coord[1])))**2)**0.5
         if self.randint == 0:
@@ -137,10 +137,10 @@ class Bomb:
             if flag_moverment_gun_left:
                 self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed - gun.speed,
                                   ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
-            if flag_moverment_gun_right:
+            elif flag_moverment_gun_right:
                 self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed + gun.speed,
                                   ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
-            if not flag_moverment_gun_right and not flag_moverment_gun_right:
+            elif not flag_moverment_gun_right and not flag_moverment_gun_right:
                 self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed,
                               ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
         self.coord = np.array([(goal.coord[0] + (goal.a / 2)), (goal.coord[1] + (goal.b / 2))])
