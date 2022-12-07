@@ -4,7 +4,7 @@ from variabls import *
 pygame.init()
 screen = pygame.display.set_mode((parametrs[0], parametrs[1]))
 
-new_image = pygame.image.load('image_1.png').convert_alpha()
+new_image = pygame.image.load('image_1_new.jpg').convert_alpha()
 image_1 = pygame.transform.scale(new_image, (parametrs[0], parametrs[1] - parametrs[2]))
 new_image = pygame.image.load('image_2.png').convert_alpha()
 image_2 = pygame.transform.scale(new_image, (a_goals, b_goals))
@@ -59,21 +59,25 @@ coord_prediction = coord_default
 
 for i in range(k): # рандомное время появления бомбы каждой мишени в начале
     time.append(randint(time_min, time_max))
-flag_update_rockets = True
 
 time_caliber_new = 0
 
+flag_update_rockets = True
 flag_1 = True
 flag_2 = False
-flag_game = False
+flag_game_1 = False
+flag_game_2 = False
+flag_game_3 = False
 flag_easy = True
 flag_normal = False
 flag_hard = False
-flag_level_1 = False #Andrey
-l = 0
+flag_level_screen_1 = False
+flag_level_screen_2 = False
+flag_level_screen_3 = False
 flag_folstart_shot = True
 flag_movement_gun_left = False
 flag_movement_gun_right = False
+l = 0
 
 while not finished:
     clock.tick(parametrs[3])
@@ -107,8 +111,7 @@ while not finished:
                 (coord_mouse[1] <= y_play + b_play):
             coord_mouse = coord_default
             flag_1 = False
-            flag_level_1 = True #Andrey
-            #flag_game = True
+            flag_level_screen_1 = True
 
         if (coord[0] >= parametrs[0] / 2 - a_options / 2) and \
                 (coord[0] <= parametrs[0] / 2 + a_options / 2) and \
@@ -142,6 +145,33 @@ while not finished:
             screen.blit(image_hard, (parametrs[0] / 2 - a_level / 2, y_level))
 
         screen.blit(image_name, (parametrs[0] / 2 - a_name / 2, y_name))
+
+        if flag_easy:
+            mean_level = mean_level_easy
+            mean_rockets = mean_rockets_easy
+            speed_goals = speed_goals_easy
+            speed_bomb = speed_bomb_easy
+            time_caliber = time_caliber_easy
+            a_goals = a_goals_easy
+            b_goals = b_goals_easy
+
+        if flag_normal:
+            mean_level = mean_level_normal
+            mean_rockets = mean_rockets_normal
+            speed_goals = speed_goals_normal
+            speed_bomb = speed_bomb_normal
+            time_caliber = time_caliber_new
+            a_goals = a_goals_normal
+            b_goals = b_goals_normal
+
+        if flag_hard:
+            mean_level = mean_level_hard
+            mean_rockets = mean_rockets_hard
+            speed_goals = speed_goals_hard
+            speed_bomb = speed_bomb_hard
+            time_caliber = time_caliber_hard
+            a_goals = a_goals_hard
+            b_goals = b_goals_hard
     ''''''
 
     '''Экран 2'''
@@ -226,19 +256,58 @@ while not finished:
             flag_2 = False
     ''''''
 
-    if flag_level_1:
-        l += 1
-        if l < time_level_1:
+    '''Level 1 screen'''
+    if flag_level_screen_1:
+        if l > time_level_1:
+            flag_game_1 = True
+            flag_level_screen_1 = False
+            l = 0
+        else:
             screen.fill(ORANGE)
             rect(screen, BLACK, (0, 0, parametrs[0], parametrs[1]), frame_width)
             screen.blit(image_level_1, (parametrs[0] / 2 - a_level_1 / 2, parametrs[1] / 2 - b_level_1 / 2))
+            l += 1
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                finished = True
+    ''''''
+
+    '''Level 2 screen'''
+    if flag_level_screen_2:
+        if l > time_level_2:
+            flag_game_2 = True
+            l = 0
+            flag_level_screen_2 = False
         else:
-            flag_game = True    
-    
+            screen.fill(ORANGE)
+            rect(screen, BLACK, (0, 0, parametrs[0], parametrs[1]), frame_width)
+            screen.blit(image_level_2, (parametrs[0] / 2 - a_level_2 / 2, parametrs[1] / 2 - b_level_2 / 2))
+            l += 1
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                finished = True
+    ''''''
+
+    '''Level 3 screen'''
+    if flag_level_screen_3:
+        if l > time_level_3:
+            flag_game_3 = True
+            l = 0
+            flag_level_screen_3 = False
+        else:
+            screen.fill(ORANGE)
+            rect(screen, BLACK, (0, 0, parametrs[0], parametrs[1]), frame_width)
+            screen.blit(image_level_3, (parametrs[0] / 2 - a_level_3 / 2, parametrs[1] / 2 - b_level_3 / 2))
+            l += 1
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                finished = True
+    ''''''
+
     '''Экран игры'''
-    if flag_game:
+    if flag_game_1 or flag_game_2 or flag_game_3:
         screen.fill(BLACK) # Дисплей в цвет
-        #screen.blit(image_1, (0, 0)) # Отображение картинки
+        screen.blit(image_1, (0, 0)) # Отображение картинки
 
         new_goal(goals, k, screen, RED, a_goals, b_goals, parametrs, speed_goals) # Создание мишеней
         tick_shot += 1 # Переменная всегда увеличивается, в случае активации ЛКМ, она сбрасывается до 0.
@@ -388,6 +457,65 @@ while not finished:
         ''''''
 
         off(rockets, coord_prediction) # Проверка ракет на достижение курсора мыши
+
+        if mean == mean_level_1_stop and flag_game_1:
+            flag_game_1 = False
+            flag_level_screen_2 = True
+            mean = 0
+            goals = []
+            gun = Gun(a_gun, b_gun, speed_gun, parametrs, screen, DARK_RED, rasst_gr_gun)
+            bombs = []
+            shots = []
+            anim_sm = []
+            color_anim_sm = []
+            rockets = []
+            calibers = []
+            ult1s = []
+            mean_ult = 0
+            kolvo_rockets = mean_rockets
+            time_caliber_new = 0
+            k = k_2
+            time_max = time_max_2
+            for i in range(k):
+                time.append(randint(time_min, time_max))
+
+        if mean == mean_level_2_stop and flag_game_2:
+            flag_game_2 = False
+            flag_level_screen_3 = True
+            mean = 0
+            goals = []
+            gun = Gun(a_gun, b_gun, speed_gun, parametrs, screen, DARK_RED, rasst_gr_gun)
+            bombs = []
+            shots = []
+            anim_sm = []
+            color_anim_sm = []
+            rockets = []
+            calibers = []
+            ult1s = []
+            mean_ult = 0
+            kolvo_rockets = mean_rockets
+            time_caliber_new = 0
+            k = k_3
+            time_max = time_max_3
+            for i in range(k):
+                time.append(randint(time_min, time_max))
+
+        if mean == mean_level_3_stop and flag_game_3:
+            flag_game_3 = False
+            mean = 0
+            finished = True
+            goals = []
+            gun = Gun(a_gun, b_gun, speed_gun, parametrs, screen, DARK_RED, rasst_gr_gun)
+            bombs = []
+            shots = []
+            anim_sm = []
+            color_anim_sm = []
+            rockets = []
+            calibers = []
+            ult1s = []
+            mean_ult = 0
+            kolvo_rockets = mean_rockets
+            time_caliber_new = 0
     ''''''
 
     pygame.display.update() # Обновление дисплея
