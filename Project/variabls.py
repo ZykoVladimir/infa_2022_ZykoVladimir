@@ -21,7 +21,7 @@ k_2 = 5
 k_3 = 7
 
 time_max_1 = 6 * parametrs[3]
-time_max_2 = time_max_1
+time_max_2 = 6 * parametrs[3]
 time_max_3 = 5 * parametrs[3]
 time_max = time_max_1
 

@@ -154,6 +154,7 @@ while not finished:
             time_caliber = time_caliber_easy
             a_goals = a_goals_easy
             b_goals = b_goals_easy
+            kolvo_rockets = mean_rockets_easy
 
         if flag_normal:
             mean_level = mean_level_normal
@@ -163,6 +164,7 @@ while not finished:
             time_caliber = time_caliber_new
             a_goals = a_goals_normal
             b_goals = b_goals_normal
+            kolvo_rockets = mean_rockets_normal
 
         if flag_hard:
             mean_level = mean_level_hard
@@ -172,6 +174,7 @@ while not finished:
             time_caliber = time_caliber_hard
             a_goals = a_goals_hard
             b_goals = b_goals_hard
+            kolvo_rockets = mean_rockets_hard
     ''''''
 
     '''Экран 2'''
