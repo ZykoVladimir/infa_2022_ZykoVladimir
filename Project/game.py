@@ -461,7 +461,7 @@ while not finished:
 
         off(rockets, coord_prediction) # Проверка ракет на достижение курсора мыши
 
-        if mean == mean_level_1_stop and flag_game_1:
+        if mean >= mean_level_1_stop and flag_game_1:
             flag_game_1 = False
             flag_level_screen_2 = True
             mean = 0
@@ -482,7 +482,7 @@ while not finished:
             for i in range(k):
                 time.append(randint(time_min, time_max))
 
-        if mean == mean_level_2_stop and flag_game_2:
+        if mean >= mean_level_2_stop and flag_game_2:
             flag_game_2 = False
             flag_level_screen_3 = True
             mean = 0
@@ -503,7 +503,7 @@ while not finished:
             for i in range(k):
                 time.append(randint(time_min, time_max))
 
-        if mean == mean_level_3_stop and flag_game_3:
+        if mean >= mean_level_3_stop and flag_game_3:
             flag_game_3 = False
             mean = 0
             finished = True
