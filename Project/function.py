@@ -83,8 +83,8 @@ def napr_goals(goals):
 def displey_goals(goals_f, image_2, color):
     '''Отображение мишеней (мишени, Э, картинка)'''
     for i in goals_f:
-        #i.screen.blit(image_2, (i.coord[0], i.coord[1]))
-        pygame.draw.ellipse(i.screen, color, (i.coord[0], i.coord[1], i.a, i.b))
+        i.screen.blit(image_2, (i.coord[0], i.coord[1]))
+        #pygame.draw.ellipse(i.screen, color, (i.coord[0], i.coord[1], i.a, i.b))
 
 
 # Line
@@ -107,8 +107,8 @@ class Gun:
 
 def displey_gun(gun, image):
     '''Отображение пушки (пушка)'''
-    #gun.screen.blit(image, (gun.coord[0], gun.coord[1]))
-    rect(gun.screen, gun.color, (gun.coord[0], gun.coord[1], gun.a, gun.b))
+    gun.screen.blit(image, (gun.coord[0], gun.coord[1]))
+    #rect(gun.screen, gun.color, (gun.coord[0], gun.coord[1], gun.a, gun.b))
 
 
 def chek_bombs(bombs_f, gun_f):
@@ -385,8 +385,8 @@ def napr_caliber(calibers):
 def displey_caliber(calibers, color, image):
     '''Отображение килабров'''
     for i in calibers:
-        #i.screen.blit(image, (i.coord[0], i.coord[1]))
-        rect(i.screen, color, (i.coord[0], i.coord[1], i.a, i.b))
+        i.screen.blit(image, (i.coord[0], i.coord[1]))
+        #rect(i.screen, color, (i.coord[0], i.coord[1], i.a, i.b))
 
 
 def chek_caliber(caliber, goals):
