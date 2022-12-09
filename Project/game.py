@@ -161,7 +161,7 @@ while not finished:
             mean_rockets = mean_rockets_normal
             speed_goals = speed_goals_normal
             speed_bomb = speed_bomb_normal
-            time_caliber = time_caliber_new
+            time_caliber = time_caliber_normal
             a_goals = a_goals_normal
             b_goals = b_goals_normal
             kolvo_rockets = mean_rockets_normal
