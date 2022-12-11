@@ -323,12 +323,6 @@ while not finished:
                 finished = True
 
             if event.type == pygame.KEYDOWN: # Клавиатура
-                if event.key == pygame.K_a and \
-                        gun.coord[0] > 0: # Проверка нажатия a
-                    nag_left = True
-                if event.key == pygame.K_d and \
-                        parametrs[0] - gun.coord[0] > gun.a: # Проверка нажатия d
-                    nag_right = True
                 if event.key == pygame.K_SPACE and time_caliber_new < 0: # Проверка нажатия space, запуск calibers
                     calibers.append(Caliber(a_calibers, b_calibers,
                                         speed_calibers, boost_calibers, screen, parametrs, gun))
