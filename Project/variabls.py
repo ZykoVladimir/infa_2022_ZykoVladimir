@@ -15,7 +15,7 @@ ORANGE = (255, 157, 10)
 
 ''''''
 
-video_death = "C:/Users/User/Downloads/001.mp4"
+video_death = "C:/Users/User/infa_2022_ZykoVladimir/Project/001.mp4"
 
 parametrs3_hard = 150
 
