@@ -84,6 +84,20 @@ while not finished:
 
     '''Экран 1'''
     if flag_1:
+        mean = 0
+        goals = []
+        gun = Gun(a_gun, b_gun, speed_gun, parametrs, screen, DARK_RED, rasst_gr_gun)
+        bombs = []
+        shots = []
+        anim_sm = []
+        color_anim_sm = []
+        rockets = []
+        calibers = []
+        ult1s = []
+        mean_ult = 0
+        kolvo_rockets = mean_rockets
+        time_caliber_new = 0
+        aboba = 0
         screen.blit(image_3, (0, 0))
         for event in pygame.event.get():
 
@@ -364,8 +378,7 @@ while not finished:
         ''''''
 
         '''Модуль движения пушки вправо и влево'''
-        nag_left = False
-        nag_right = False
+    
         if pygame.key.get_pressed()[pygame.K_a] and gun.coord[0] > 0:
             zag_left = True
         else:
@@ -374,12 +387,12 @@ while not finished:
             zag_right = True
         else:
             zag_right = False
-        if nag_left or zag_left:
+        if zag_left:
             gun.coord -= [gun.speed, 0]
             flag_movement_gun_left = True
         else:
             flag_movement_gun_left = False
-        if nag_right or zag_right:
+        if zag_right:
             gun.coord += [gun.speed, 0]
             flag_movement_gun_right = True
         else:
@@ -443,7 +456,30 @@ while not finished:
 
         '''Проверка попадания бомбы в пушку, если True, выход из цикла'''
         if chek_bombs(bombs, gun):
-            finished = True
+            video = cv2.VideoCapture(video_death)
+            success, video_image = video.read()
+            fps = video.get(cv2.CAP_PROP_FPS)
+            
+            run = True
+            while run:
+                clock.tick(fps)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        run = False
+                
+                success, video_image = video.read()
+                if success:
+                    video_surf = pygame.image.frombuffer(video_image.tobytes(), video_image.shape[1::-1], "BGR")
+                    video_surf = pygame.transform.scale(video_surf, (parametrs[0], parametrs[1]))
+                else:
+                    run = False
+                screen.blit(video_surf, (0, 0))
+                pygame.display.flip()
+
+            flag_1 = True
+            flag_game_1 = False
+            flag_game_2 = False
+            flag_game_3 = False
         ''''''
 
         '''Модуль удаления ненужных компонентов программы'''

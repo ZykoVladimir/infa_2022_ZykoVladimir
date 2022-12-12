@@ -14,6 +14,9 @@ DARK_GREEN = (0, 100, 0)
 ORANGE = (255, 157, 10)
 
 ''''''
+
+video_death = "C:/Users/User/Downloads/001.mp4"
+
 parametrs3_hard = 150
 
 k_1 = 3

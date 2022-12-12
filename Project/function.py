@@ -3,6 +3,7 @@ from pygame.draw import *
 from random import randint
 import numpy as np
 import math
+import cv2
 np.seterr(divide='ignore') # Игнорирование ошибки деления на ноль
 
 
@@ -120,7 +121,6 @@ def chek_bombs(bombs_f, gun_f):
                 (i.coord[0] <= gun_f.coord[0] + gun_f.a + i.rad):
             return True
 
-
 # Bomb
 class Bomb:
     '''Бомба (мишень, пушка, радиус, скорость, Э)'''
@@ -131,18 +131,18 @@ class Bomb:
         self.speed = speed / ((abs(((gun.a / 2) + gun.coord[0] - goal.coord[0])))**2 +
                               (abs(((gun.b / 2) + gun.coord[1] - goal.coord[1])))**2)**0.5
         if self.randint == 0:
-            self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed,
-                              ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
+            self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0] - goal.a / 2) * self.speed,
+                              ((gun.b / 2) + gun.coord[1] - goal.coord[1] - goal.b / 2) * self.speed])
         if self.randint == 1:
             if flag_moverment_gun_left:
-                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed - gun.speed,
-                                  ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
+                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0] - goal.a / 2) * self.speed - gun.speed,
+                                  ((gun.b / 2) + gun.coord[1] - goal.coord[1] - goal.b / 2) * self.speed])
             elif flag_moverment_gun_right:
-                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed + gun.speed,
-                                  ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
+                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0] - goal.a / 2) * self.speed + gun.speed,
+                                  ((gun.b / 2) + gun.coord[1] - goal.coord[1] - goal.b / 2) * self.speed])
             elif not flag_moverment_gun_right and not flag_moverment_gun_right:
-                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0]) * self.speed,
-                              ((gun.b / 2) + gun.coord[1] - goal.coord[1]) * self.speed])
+                self.napr = np.array([((gun.a / 2) + gun.coord[0] - goal.coord[0] - goal.a / 2) * self.speed,
+                              ((gun.b / 2) + gun.coord[1] - goal.coord[1] - goal.b / 2) * self.speed])
         self.coord = np.array([(goal.coord[0] + (goal.a / 2)), (goal.coord[1] + (goal.b / 2))])
 
 
@@ -360,6 +360,33 @@ def delete(f):
             if i.coord[1] < -100 or i.coord[1] > i.parametrs[1] + 100:
                 f.remove(i)
 
+def screen_death(screen, video, parametrs):
+    '''Экран после проигрыша'''
+    video = cv2.VideoCapture(video)
+    success, video_image = video.read()
+    fps = video.get(cv2.CAP_PROP_FPS)
+    
+
+    clock = pygame.time.Clock()
+
+    run = True
+    while run:
+        clock.tick(fps)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        
+        success, video_image = video.read()
+        if success:
+            video_surf = pygame.image.frombuffer(video_image.tobytes(), video_image.shape[1::-1], "BGR")
+            video_surf = pygame.transform.scale(video_surf, (parametrs[0], parametrs[1]))
+        else:
+            run = False
+        screen.blit(video_surf, (0, 0))
+        pygame.display.flip()
+
+    pygame.quit()
+    exit()
 
 # Caliber
 class Caliber:
