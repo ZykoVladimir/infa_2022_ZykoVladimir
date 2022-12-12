@@ -1,3 +1,6 @@
+import pathlib
+from pathlib import Path
+
 # главные параметры - ГП (ширина, высота, высота линии от низа, FPS)
 parametrs = [1000, 600, 200, 60]
 
@@ -15,7 +18,7 @@ ORANGE = (255, 157, 10)
 
 ''''''
 
-video_death = "C:/Users/User/infa_2022_ZykoVladimir/Project/001.mp4"
+video_death = "001.mp4"
 
 parametrs3_hard = 150
 
@@ -108,15 +111,15 @@ coord_default = (-100, -100)
 '''Э'''
 a_name = 500
 b_name = 100
-y_name = 100
+y_name = 50
 
 a_options = 200
 b_options = 50
-y_options = 300
+y_options = 200
 
 a_play = 200
 b_play = 50
-y_play = 400
+y_play = 300
 
 a_easy = 200
 b_easy = 50
@@ -132,7 +135,11 @@ y_hard = (parametrs[1] - 3 * b_easy) * 3 / 4 + 2 * b_easy
 
 a_level = 200
 b_level = 50
-y_level = 500
+y_level = 400
+
+a_exit = 400
+b_exit = 50
+y_exit = 500
 
 a_level_1 = 320
 b_level_1 = 80
@@ -151,3 +158,10 @@ frame_width = 20 # ширина черной рамки в заставке LEVE
 coord = coord_default
 coord_mouse = coord_default
 ''''''
+
+y_menu = 300
+a_menu, b_menu = 200, 50
+y_exit_victory = 450
+a_exit_victory, b_exit_victory = 400, 50
+y_victory = 100
+a_victory, b_victory = 400, 100

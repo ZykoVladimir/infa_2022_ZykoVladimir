@@ -32,6 +32,14 @@ new_image = pygame.image.load('level_2.png').convert_alpha()
 image_level_2 = pygame.transform.scale(new_image, (a_level_2, b_level_2))
 new_image = pygame.image.load('level_3.png').convert_alpha()
 image_level_3 = pygame.transform.scale(new_image, (a_level_3, b_level_3))
+new_image = pygame.image.load('image_3.png').convert_alpha()
+image_3 = pygame.transform.scale(new_image, (parametrs[0], parametrs[1]))
+new_image = pygame.image.load('image_menu.png').convert_alpha()
+image_menu = pygame.transform.scale(new_image, (a_menu, b_menu))
+new_image = pygame.image.load('image_exit.png').convert_alpha()
+image_exit = pygame.transform.scale(new_image, (a_exit_victory, b_exit_victory))
+new_image = pygame.image.load('image_victory.png').convert_alpha()
+image_victory = pygame.transform.scale(new_image, (a_victory, b_victory))
 
 pygame.display.update()
 clock = pygame.time.Clock()
@@ -77,6 +85,7 @@ flag_level_screen_3 = False
 flag_folstart_shot = True
 flag_movement_gun_left = False
 flag_movement_gun_right = False
+flag_victory = False
 l = 0
 
 while not finished:
@@ -127,6 +136,12 @@ while not finished:
             flag_1 = False
             flag_level_screen_1 = True
 
+        if (coord_mouse[0] >= parametrs[0] / 2 - a_exit / 2) and \
+                (coord_mouse[0] <= parametrs[0] / 2 + a_exit / 2) and \
+                (coord_mouse[1] >= y_exit) and \
+                (coord_mouse[1] <= y_exit + b_exit):
+            finished = True
+
         if (coord[0] >= parametrs[0] / 2 - a_options / 2) and \
                 (coord[0] <= parametrs[0] / 2 + a_options / 2) and \
                 (coord[1] >= y_options) and \
@@ -148,6 +163,17 @@ while not finished:
                                  b_play + 2 * thickness), thickness)
         else:
             screen.blit(image_play, (parametrs[0] / 2 - a_play / 2, y_play))
+
+        if (coord[0] >= parametrs[0] / 2 - a_exit / 2) and \
+                (coord[0] <= parametrs[0] / 2 + a_exit / 2) and \
+                (coord[1] >= y_exit) and \
+                (coord[1] <= y_exit + b_exit):
+            screen.blit(image_exit, (parametrs[0] / 2 - a_exit / 2, y_exit))
+            rect(screen, WHITE, (parametrs[0] / 2 - a_exit / 2 - thickness,
+                                 y_exit - thickness, a_exit + 2 * thickness,
+                                 b_exit + 2 * thickness), thickness)
+        else:
+            screen.blit(image_exit, (parametrs[0] / 2 - a_exit / 2, y_exit))
 
         if flag_easy:
             screen.blit(image_easy, (parametrs[0] / 2 - a_level / 2, y_level))
@@ -509,6 +535,8 @@ while not finished:
             time_caliber_new = 0
             k = k_2
             time_max = time_max_2
+            coord = coord_default
+            coord_mouse = coord_default
             for i in range(k):
                 time.append(randint(time_min, time_max))
 
@@ -530,13 +558,15 @@ while not finished:
             time_caliber_new = 0
             k = k_3
             time_max = time_max_3
+            coord = coord_default
+            coord_mouse = coord_default
             for i in range(k):
                 time.append(randint(time_min, time_max))
 
         if mean >= mean_level_3_stop and flag_game_3:
             flag_game_3 = False
+            flag_victory = True
             mean = 0
-            finished = True
             goals = []
             gun = Gun(a_gun, b_gun, speed_gun, parametrs, screen, DARK_RED, rasst_gr_gun)
             bombs = []
@@ -549,6 +579,63 @@ while not finished:
             mean_ult = 0
             kolvo_rockets = mean_rockets
             time_caliber_new = 0
+            coord = coord_default
+            coord_mouse = coord_default
+    ''''''
+
+    ''''''
+    if flag_victory:
+        screen.blit(image_3, (0, 0))
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                finished = True
+
+            if event.type == pygame.MOUSEMOTION:
+                coord = event.pos
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    coord_mouse = event.pos
+
+        if (coord[0] >= parametrs[0] / 2 - a_menu / 2) and \
+                (coord[0] <= parametrs[0] / 2 + a_menu / 2) and \
+                (coord[1] >= y_menu) and \
+                (coord[1] <= y_menu + b_menu):
+            screen.blit(image_menu, (parametrs[0] / 2 - a_menu / 2, y_menu))
+            rect(screen, WHITE, (parametrs[0] / 2 - a_menu / 2 - thickness,
+                                 y_menu - thickness, a_menu + 2 * thickness,
+                                 b_menu + 2 * thickness), thickness)
+        else:
+            screen.blit(image_menu, (parametrs[0] / 2 - a_menu / 2, y_menu))
+
+        if (coord[0] >= parametrs[0] / 2 - a_exit_victory / 2) and \
+                (coord[0] <= parametrs[0] / 2 + a_exit_victory / 2) and \
+                (coord[1] >= y_exit_victory) and \
+                (coord[1] <= y_exit_victory + b_exit_victory):
+            screen.blit(image_exit, (parametrs[0] / 2 - a_exit_victory / 2, y_exit_victory))
+            rect(screen, WHITE, (parametrs[0] / 2 - a_exit_victory / 2 - thickness,
+                                 y_exit_victory - thickness, a_exit_victory + 2 * thickness,
+                                 b_exit_victory + 2 * thickness), thickness)
+        else:
+            screen.blit(image_exit, (parametrs[0] / 2 - a_exit_victory / 2, y_exit_victory))
+
+        screen.blit(image_victory, (parametrs[0] / 2 - a_victory / 2, y_victory))
+
+        if (coord_mouse[0] >= parametrs[0] / 2 - a_menu / 2) and \
+                    (coord_mouse[0] <= parametrs[0] / 2 + a_menu / 2) and \
+                    (coord_mouse[1] >= y_menu) and \
+                    (coord_mouse[1] <= y_menu + b_menu):
+            coord_mouse = coord_default
+            flag_1 = True
+            flag_victory = False
+
+        if (coord_mouse[0] >= parametrs[0] / 2 - a_exit_victory / 2) and \
+                (coord_mouse[0] <= parametrs[0] / 2 + a_exit_victory / 2) and \
+                (coord_mouse[1] >= y_exit_victory) and \
+                (coord_mouse[1] <= y_exit_victory + b_exit_victory):
+            coord_mouse = coord_default
+            finished = True
     ''''''
 
     pygame.display.update() # Обновление дисплея
