@@ -120,6 +120,7 @@ def chek_bombs(bombs_f, gun_f):
                 (i.coord[1] <= gun_f.coord[1] + gun_f.b + i.rad) and \
                 (gun_f.coord[0] - i.rad <= i.coord[0]) and \
                 (i.coord[0] <= gun_f.coord[0] + gun_f.a + i.rad):
+            i.dex = True
             return True
 
 # Bomb
@@ -365,6 +366,7 @@ def delete(f):
             if i.coord[1] < -100 or i.coord[1] > i.parametrs[1] + 100:
                 f.remove(i)
 
+
 def screen_death(screen, video, parametrs):
     '''Экран после проигрыша'''
     video = cv2.VideoCapture(video)
@@ -392,6 +394,14 @@ def screen_death(screen, video, parametrs):
 
     pygame.quit()
     exit()
+
+
+def displey_life(life, image, screen, parametrs, rasst_x, rasst_y0, rasst_m_life, a_life):
+
+    for i in range(life):
+        rasst_y = rasst_y0 + rasst_m_life * (i - 1) + (i - 1) * a_life
+        screen.blit(image, (rasst_x, parametrs[1] - parametrs[2] + rasst_y))
+
 
 # Caliber
 class Caliber:

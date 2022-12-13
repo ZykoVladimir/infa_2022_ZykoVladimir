@@ -40,6 +40,8 @@ new_image = pygame.image.load('image_exit.png').convert_alpha()
 image_exit = pygame.transform.scale(new_image, (a_exit_victory, b_exit_victory))
 new_image = pygame.image.load('image_victory.png').convert_alpha()
 image_victory = pygame.transform.scale(new_image, (a_victory, b_victory))
+new_image = pygame.image.load('image_life.png').convert_alpha()
+image_life = pygame.transform.scale(new_image, (a_life, a_life))
 
 pygame.display.update()
 clock = pygame.time.Clock()
@@ -89,7 +91,6 @@ flag_victory = False
 hit = False
 immortal = False
 l = 0
-time2=0
 
 while not finished:
     clock.tick(parametrs[3])
@@ -129,6 +130,7 @@ while not finished:
                 (coord_mouse[1] >= y_options) and \
                 (coord_mouse[1] <= y_options + b_options) and flag_1:
             coord_mouse = coord_default
+            coord = coord_default
             flag_2 = True
             flag_1 = False
 
@@ -137,6 +139,7 @@ while not finished:
                 (coord_mouse[1] >= y_play) and \
                 (coord_mouse[1] <= y_play + b_play):
             coord_mouse = coord_default
+            coord = coord_default
             flag_1 = False
             flag_level_screen_1 = True
 
@@ -460,15 +463,14 @@ while not finished:
         displey_caliber(calibers, GREEN, image_caliber)
         displey_shots(shots, WHITE)
         displey_rocket(rockets, YELLOW)
-       # displey_gun(gun, image_gun)
-        displey_text(40, WHITE, (20, parametrs[1] - parametrs[2] + 20), 'Score', screen)
-        displey_text(40, WHITE, (100, parametrs[1] - parametrs[2] + 20), str(mean), screen)
+        displey_text(size_score, WHITE, (rasst_score_screen, parametrs[1] - parametrs[2] + rasst_score_screen), f'Score {mean}', screen)
         displey_k_rockets(kolvo_rockets, screen, WHITE, rasst_gr,
                         rad_rockets_anim, rasst_rockets_anim, parametrs, width, width_caliber_ult)
         displey_level(mean_ult, screen, WHITE, parametrs,
                     width, height, rasst_gr, mean_level, thickness, DARK_GREEN, DARK_ORANGE, DARK_RED, width_caliber_ult)
         displey_update_caliber(time_caliber_new, time_caliber, rasst_gr, height_caliber_ult, width_caliber_ult,
                            screen, parametrs, DARK_GREEN, DARK_ORANGE, WHITE, thickness)
+        displey_life(life, image_life, screen, parametrs, rasst_life_x, rasst_life_y, rasst_m_life, a_life)
         ''''''
 
         '''Обновление ракет в случае достижения ульты'''
