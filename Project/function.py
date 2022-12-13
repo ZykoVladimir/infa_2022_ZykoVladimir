@@ -7,6 +7,7 @@ import cv2
 np.seterr(divide='ignore') # Игнорирование ошибки деления на ноль
 
 
+
 # Goal
 class Goal:
     '''Мишени, (ширина, высота, скорость, ГП, Э, цвет)'''
@@ -128,6 +129,7 @@ class Bomb:
         self.screen = screen
         self.rad = rad
         self.randint = randint(0, 1)
+        self.dex = False
         self.speed = speed / ((abs(((gun.a / 2) + gun.coord[0] - goal.coord[0])))**2 +
                               (abs(((gun.b / 2) + gun.coord[1] - goal.coord[1])))**2)**0.5
         if self.randint == 0:
@@ -162,6 +164,9 @@ def delete_bomb(bombs_f, parametrs):
     '''Удаление бомбы в случае её выхода за границы экрана,
     где граница экрана больше на 0.1x, чем параметры экрана (бомбы, ГП)'''
     for i in bombs_f:
+        if i.dex:
+            bombs_f.remove(i)
+
         if i.coord[0] <= - 0.1 * parametrs[0] or i.coord[0] > 1.1 * parametrs[0] or \
                         i.coord[1] <= - 0.1 * parametrs[1] or i.coord[1] > 1.1 * parametrs[1]:
             bombs_f.remove(i)

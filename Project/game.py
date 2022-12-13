@@ -86,7 +86,10 @@ flag_folstart_shot = True
 flag_movement_gun_left = False
 flag_movement_gun_right = False
 flag_victory = False
+hit = False
+immortal = False
 l = 0
+time2=0
 
 while not finished:
     clock.tick(parametrs[3])
@@ -108,6 +111,7 @@ while not finished:
         time_caliber_new = 0
         aboba = 0
         screen.blit(image_3, (0, 0))
+        life = 3
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
@@ -447,6 +451,8 @@ while not finished:
         ''''''
 
         '''Модуль отображения компонент программы'''
+        if not immortal:
+            displey_gun(gun, image_gun)
         displey_bomb(bombs, BLUE)
         displey_goals(goals, image_2, RED)
         displey_line(screen, WHITE, parametrs)
@@ -454,7 +460,7 @@ while not finished:
         displey_caliber(calibers, GREEN, image_caliber)
         displey_shots(shots, WHITE)
         displey_rocket(rockets, YELLOW)
-        displey_gun(gun, image_gun)
+       # displey_gun(gun, image_gun)
         displey_text(40, WHITE, (20, parametrs[1] - parametrs[2] + 20), 'Score', screen)
         displey_text(40, WHITE, (100, parametrs[1] - parametrs[2] + 20), str(mean), screen)
         displey_k_rockets(kolvo_rockets, screen, WHITE, rasst_gr,
@@ -481,31 +487,12 @@ while not finished:
         ''''''
 
         '''Проверка попадания бомбы в пушку, если True, выход из цикла'''
-        if chek_bombs(bombs, gun):
-            video = cv2.VideoCapture(video_death)
-            success, video_image = video.read()
-            fps = video.get(cv2.CAP_PROP_FPS)
-            
-            run = True
-            while run:
-                clock.tick(fps)
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        run = False
-                
-                success, video_image = video.read()
-                if success:
-                    video_surf = pygame.image.frombuffer(video_image.tobytes(), video_image.shape[1::-1], "BGR")
-                    video_surf = pygame.transform.scale(video_surf, (parametrs[0], parametrs[1]))
-                else:
-                    run = False
-                screen.blit(video_surf, (0, 0))
-                pygame.display.flip()
+        if chek_bombs(bombs, gun) and not immortal:
+            hit = True
 
-            flag_1 = True
-            flag_game_1 = False
-            flag_game_2 = False
-            flag_game_3 = False
+
+
+
         ''''''
 
         '''Модуль удаления ненужных компонентов программы'''
@@ -537,6 +524,7 @@ while not finished:
             time_max = time_max_2
             coord = coord_default
             coord_mouse = coord_default
+            life = 3
             for i in range(k):
                 time.append(randint(time_min, time_max))
 
@@ -560,6 +548,7 @@ while not finished:
             time_max = time_max_3
             coord = coord_default
             coord_mouse = coord_default
+            life = 3
             for i in range(k):
                 time.append(randint(time_min, time_max))
 
@@ -581,8 +570,45 @@ while not finished:
             time_caliber_new = 0
             coord = coord_default
             coord_mouse = coord_default
+            life = 3
     ''''''
+    '''lifes'''
+    if hit:
+        life-=1
+        immortal=True
+        if life <= 0:
+            video = cv2.VideoCapture(video_death)
+            success, video_image = video.read()
+            fps = video.get(cv2.CAP_PROP_FPS)
 
+            run = True
+            while run:
+                clock.tick(fps)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        finished = True
+                        run = False
+
+                success, video_image = video.read()
+                if success:
+                    video_surf = pygame.image.frombuffer(video_image.tobytes(), video_image.shape[1::-1], "BGR")
+                    video_surf = pygame.transform.scale(video_surf, (parametrs[0], parametrs[1]))
+                else:
+                    run = False
+                screen.blit(video_surf, (0, 0))
+                pygame.display.flip()
+
+            flag_1 = True
+            flag_game_1 = False
+            flag_game_2 = False
+            flag_game_3 = False
+        hit = False
+
+    if immortal:
+        time2+=1
+        if time2 >= 30:
+            immortal = False
+            time2=0
     ''''''
     if flag_victory:
         screen.blit(image_3, (0, 0))
