@@ -66,9 +66,9 @@ time_caliber_normal = 15 * parametrs[3]
 time_caliber_hard = 20 * parametrs[3]
 time_caliber = time_caliber_easy
 
-a_goals_easy = 50
-a_goals_normal = 45
-a_goals_hard = 40
+a_goals_easy = 55
+a_goals_normal = 50
+a_goals_hard = 45
 a_goals = a_goals_easy
 
 b_goals_easy = 20
@@ -125,7 +125,7 @@ y_name = 50
 
 a_options = 200
 b_options = 50
-y_options = 200
+y_options = 400
 
 a_play = 200
 b_play = 50
@@ -145,7 +145,7 @@ y_hard = (parametrs[1] - 3 * b_easy) * 3 / 4 + 2 * b_easy
 
 a_level = 200
 b_level = 50
-y_level = 400
+y_level = 200
 
 a_exit = 400
 b_exit = 50
@@ -175,3 +175,12 @@ y_exit_victory = 450
 a_exit_victory, b_exit_victory = 400, 50
 y_victory = 100
 a_victory, b_victory = 400, 100
+
+time2=0 # Время мигания пушки.
+rasst_score_screen = 20
+size_score = 40
+
+a_life = 20 # Размер сердечек
+rasst_life_x = 20
+rasst_life_y = 75
+rasst_m_life = 3 # Между жизнями

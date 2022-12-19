@@ -18,7 +18,7 @@ new_image = pygame.image.load('image_options.png').convert_alpha()
 image_options = pygame.transform.scale(new_image, (a_options, b_options))
 new_image = pygame.image.load('image_play.png').convert_alpha()
 image_play = pygame.transform.scale(new_image, (a_play, b_play))
-new_image = pygame.image.load('image_name.png').convert_alpha()
+new_image = pygame.image.load('image_name_new.png').convert_alpha()
 image_name = pygame.transform.scale(new_image, (a_name, b_name))
 new_image = pygame.image.load('image_easy.png').convert_alpha()
 image_easy = pygame.transform.scale(new_image, (a_easy, b_easy))
@@ -26,6 +26,12 @@ new_image = pygame.image.load('image_normal.png').convert_alpha()
 image_normal = pygame.transform.scale(new_image, (a_normal, b_normal))
 new_image = pygame.image.load('image_hard.png').convert_alpha()
 image_hard = pygame.transform.scale(new_image, (a_hard, b_hard))
+new_image = pygame.image.load('image_easy_new.png').convert_alpha()
+image_easy_new = pygame.transform.scale(new_image, (a_easy, b_easy))
+new_image = pygame.image.load('image_normal_new.png').convert_alpha()
+image_normal_new = pygame.transform.scale(new_image, (a_normal, b_normal))
+new_image = pygame.image.load('image_hard_new.png').convert_alpha()
+image_hard_new = pygame.transform.scale(new_image, (a_hard, b_hard))
 new_image = pygame.image.load('level_1.png').convert_alpha()
 image_level_1 = pygame.transform.scale(new_image, (a_level_1, b_level_1))
 new_image = pygame.image.load('level_2.png').convert_alpha()
@@ -38,8 +44,10 @@ new_image = pygame.image.load('image_menu.png').convert_alpha()
 image_menu = pygame.transform.scale(new_image, (a_menu, b_menu))
 new_image = pygame.image.load('image_exit.png').convert_alpha()
 image_exit = pygame.transform.scale(new_image, (a_exit_victory, b_exit_victory))
-new_image = pygame.image.load('image_victory.png').convert_alpha()
+new_image = pygame.image.load('image_victory_new.png').convert_alpha()
 image_victory = pygame.transform.scale(new_image, (a_victory, b_victory))
+new_image = pygame.image.load('image_life.png').convert_alpha()
+image_life = pygame.transform.scale(new_image, (a_life, a_life))
 new_image = pygame.image.load('sound_on.png').convert_alpha()  
 image_sound_on = pygame.transform.scale(new_image, (a_sound, b_sound))
 new_image = pygame.image.load('sound_off.png').convert_alpha()  
@@ -160,6 +168,7 @@ while not finished:
                 (coord_mouse[1] >= y_options) and \
                 (coord_mouse[1] <= y_options + b_options) and flag_1:
             coord_mouse = coord_default
+            coord = coord_default
             flag_2 = True
             flag_1 = False
 
@@ -168,6 +177,7 @@ while not finished:
                 (coord_mouse[1] >= y_play) and \
                 (coord_mouse[1] <= y_play + b_play):
             coord_mouse = coord_default
+            coord = coord_default
             flag_1 = False
             flag_level_screen_1 = True
 
@@ -211,13 +221,13 @@ while not finished:
             screen.blit(image_exit, (parametrs[0] / 2 - a_exit / 2, y_exit))
 
         if flag_easy:
-            screen.blit(image_easy, (parametrs[0] / 2 - a_level / 2, y_level))
+            screen.blit(image_easy_new, (parametrs[0] / 2 - a_level / 2, y_level))
 
         if flag_normal:
-            screen.blit(image_normal, (parametrs[0] / 2 - a_level / 2, y_level))
+            screen.blit(image_normal_new, (parametrs[0] / 2 - a_level / 2, y_level))
 
         if flag_hard:
-            screen.blit(image_hard, (parametrs[0] / 2 - a_level / 2, y_level))
+            screen.blit(image_hard_new, (parametrs[0] / 2 - a_level / 2, y_level))
 
         if (coord_sound[0] < coord_mouse[0] < coord_sound[0] + a_sound) and (coord_sound[1] < coord_mouse[1] < coord_sound[1] + b_sound):
             coord_mouse = coord_default
@@ -506,15 +516,14 @@ while not finished:
         displey_caliber(calibers, GREEN, image_caliber)
         displey_shots(shots, WHITE)
         displey_rocket(rockets, YELLOW)
-       # displey_gun(gun, image_gun)
-        displey_text(40, WHITE, (20, parametrs[1] - parametrs[2] + 20), 'Score', screen)
-        displey_text(40, WHITE, (100, parametrs[1] - parametrs[2] + 20), str(mean), screen)
+        displey_text(size_score, WHITE, (rasst_score_screen, parametrs[1] - parametrs[2] + rasst_score_screen), f'Score {mean}', screen)
         displey_k_rockets(kolvo_rockets, screen, WHITE, rasst_gr,
                         rad_rockets_anim, rasst_rockets_anim, parametrs, width, width_caliber_ult)
         displey_level(mean_ult, screen, WHITE, parametrs,
                     width, height, rasst_gr, mean_level, thickness, DARK_GREEN, DARK_ORANGE, DARK_RED, width_caliber_ult)
         displey_update_caliber(time_caliber_new, time_caliber, rasst_gr, height_caliber_ult, width_caliber_ult,
                            screen, parametrs, DARK_GREEN, DARK_ORANGE, WHITE, thickness)
+        displey_life(life, image_life, screen, parametrs, rasst_life_x, rasst_life_y, rasst_m_life, a_life)
         ''''''
 
         '''Обновление ракет в случае достижения ульты'''
@@ -535,10 +544,6 @@ while not finished:
         '''Проверка попадания бомбы в пушку, если True, выход из цикла'''
         if chek_bombs(bombs, gun) and not immortal:
             hit = True
-
-
-
-
         ''''''
 
         '''Модуль удаления ненужных компонентов программы'''
@@ -550,7 +555,7 @@ while not finished:
 
         off(rockets, coord_prediction) # Проверка ракет на достижение курсора мыши
 
-        if mean >= mean_level_1_stop and flag_game_1:
+        if mean >= 1 and flag_game_1:
             flag_game_1 = False
             flag_level_screen_2 = True
             mean = 0
@@ -574,7 +579,7 @@ while not finished:
             for i in range(k):
                 time.append(randint(time_min, time_max))
 
-        if mean >= mean_level_2_stop and flag_game_2:
+        if mean >= 1 and flag_game_2:
             flag_game_2 = False
             flag_level_screen_3 = True
             mean = 0
@@ -598,7 +603,7 @@ while not finished:
             for i in range(k):
                 time.append(randint(time_min, time_max))
 
-        if mean >= mean_level_3_stop and flag_game_3:
+        if mean >= 1 and flag_game_3:
             flag_game_3 = False
             flag_victory = True
             mean = 0
@@ -618,6 +623,7 @@ while not finished:
             coord_mouse = coord_default
             life = 3
     ''''''
+
     '''lifes'''
     if hit:
         life-=1
