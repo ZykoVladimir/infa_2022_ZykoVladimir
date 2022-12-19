@@ -40,8 +40,10 @@ new_image = pygame.image.load('image_exit.png').convert_alpha()
 image_exit = pygame.transform.scale(new_image, (a_exit_victory, b_exit_victory))
 new_image = pygame.image.load('image_victory.png').convert_alpha()
 image_victory = pygame.transform.scale(new_image, (a_victory, b_victory))
-new_image = pygame.image.load('image_life.png').convert_alpha()
-image_life = pygame.transform.scale(new_image, (a_life, a_life))
+new_image = pygame.image.load('sound_on.png').convert_alpha()  
+image_sound_on = pygame.transform.scale(new_image, (a_sound, b_sound))
+new_image = pygame.image.load('sound_off.png').convert_alpha()  
+image_sound_off = pygame.transform.scale(new_image, (a_sound, b_sound))
 
 pygame.display.update()
 clock = pygame.time.Clock()
@@ -91,9 +93,29 @@ flag_victory = False
 hit = False
 immortal = False
 l = 0
+time2=0
+music_play = False
+
+# Для музыки
+
+def switch_music():
+    global music_play
+
+    if music_play:
+        unpause_music()
+        music_play = False
+    else:
+        stop_music()
+        music_play = True
+
+play_music(melody)
 
 while not finished:
     clock.tick(parametrs[3])
+
+    if not (flag_1 or flag_2):
+        stop_music()
+        music_play = True
 
     '''Экран 1'''
     if flag_1:
@@ -113,6 +135,14 @@ while not finished:
         aboba = 0
         screen.blit(image_3, (0, 0))
         life = 3
+
+        # Изображение звукового динамика
+        if music_play:
+            screen.blit(image_sound_off, (coord_sound[0], coord_sound[1]))
+        else:
+            screen.blit(image_sound_on, (coord_sound[0], coord_sound[1]))
+
+
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
@@ -130,7 +160,6 @@ while not finished:
                 (coord_mouse[1] >= y_options) and \
                 (coord_mouse[1] <= y_options + b_options) and flag_1:
             coord_mouse = coord_default
-            coord = coord_default
             flag_2 = True
             flag_1 = False
 
@@ -139,7 +168,6 @@ while not finished:
                 (coord_mouse[1] >= y_play) and \
                 (coord_mouse[1] <= y_play + b_play):
             coord_mouse = coord_default
-            coord = coord_default
             flag_1 = False
             flag_level_screen_1 = True
 
@@ -191,6 +219,10 @@ while not finished:
         if flag_hard:
             screen.blit(image_hard, (parametrs[0] / 2 - a_level / 2, y_level))
 
+        if (coord_sound[0] < coord_mouse[0] < coord_sound[0] + a_sound) and (coord_sound[1] < coord_mouse[1] < coord_sound[1] + b_sound):
+            coord_mouse = coord_default
+            switch_music()
+
         screen.blit(image_name, (parametrs[0] / 2 - a_name / 2, y_name))
 
         if flag_easy:
@@ -227,6 +259,13 @@ while not finished:
     '''Экран 2'''
     if flag_2:
         screen.blit(image_3, (0, 0))
+
+        # Изображение звукового динамика
+        if music_play:
+            screen.blit(image_sound_off, (coord_sound[0], coord_sound[1]))
+        else:
+            screen.blit(image_sound_on, (coord_sound[0], coord_sound[1]))
+
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
@@ -304,6 +343,10 @@ while not finished:
             flag_hard = True
             flag_1 = True
             flag_2 = False
+        
+        if (coord_sound[0] < coord_mouse[0] < coord_sound[0] + a_sound) and (coord_sound[1] < coord_mouse[1] < coord_sound[1] + b_sound):
+            coord_mouse = coord_default
+            switch_music()
     ''''''
 
     '''Level 1 screen'''
@@ -463,14 +506,15 @@ while not finished:
         displey_caliber(calibers, GREEN, image_caliber)
         displey_shots(shots, WHITE)
         displey_rocket(rockets, YELLOW)
-        displey_text(size_score, WHITE, (rasst_score_screen, parametrs[1] - parametrs[2] + rasst_score_screen), f'Score {mean}', screen)
+       # displey_gun(gun, image_gun)
+        displey_text(40, WHITE, (20, parametrs[1] - parametrs[2] + 20), 'Score', screen)
+        displey_text(40, WHITE, (100, parametrs[1] - parametrs[2] + 20), str(mean), screen)
         displey_k_rockets(kolvo_rockets, screen, WHITE, rasst_gr,
                         rad_rockets_anim, rasst_rockets_anim, parametrs, width, width_caliber_ult)
         displey_level(mean_ult, screen, WHITE, parametrs,
                     width, height, rasst_gr, mean_level, thickness, DARK_GREEN, DARK_ORANGE, DARK_RED, width_caliber_ult)
         displey_update_caliber(time_caliber_new, time_caliber, rasst_gr, height_caliber_ult, width_caliber_ult,
                            screen, parametrs, DARK_GREEN, DARK_ORANGE, WHITE, thickness)
-        displey_life(life, image_life, screen, parametrs, rasst_life_x, rasst_life_y, rasst_m_life, a_life)
         ''''''
 
         '''Обновление ракет в случае достижения ульты'''
@@ -577,8 +621,10 @@ while not finished:
     '''lifes'''
     if hit:
         life-=1
+        sound_hit(audio_hit)
         immortal=True
         if life <= 0:
+            sound_death(audio_death)
             video = cv2.VideoCapture(video_death)
             success, video_image = video.read()
             fps = video.get(cv2.CAP_PROP_FPS)
@@ -599,7 +645,6 @@ while not finished:
                     run = False
                 screen.blit(video_surf, (0, 0))
                 pygame.display.flip()
-
             flag_1 = True
             flag_game_1 = False
             flag_game_2 = False
