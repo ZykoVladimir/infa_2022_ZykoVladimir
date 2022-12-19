@@ -88,37 +88,66 @@ time_anim_sm = int(0.4 * parametrs[3] // 1) # время показа мален
 tick_shot = 0 # вначале переменная равна нулю, дальше показывает время зажатия ЛКМ для выстрела
 time_nag_limit = 2 * parametrs[3] # максимальное время зажатия ЛКМ, в случае, если время больше данного,
                                                                             # то используется time_nag_limit
+
+
 mean = 0 # количество попаданий, в начале mean = 0
 mean_ult_new = 0
 mean_ult = 0 # количество шкал ульты, не превосходит mean_level
 rad_anim_sm = 20 # радиус маленькой анимации
+
+
 height = 10 # высота одной шкалы прямоугольника ульты
 width = 30 # ширина прямоугольника ульты
 thickness = 2 # толщина прямоугольника ульты и прямоугольника калибра
 rasst_gr = 10 # расстояние от прямоугольника ульты попаданий до границ (справа)
-kolvo_rockets = mean_rockets # количество ракет в определенный момент времени, готовых к выстрелу.
+time_ult1 = 0.25 * parametrs[3] # время действия первой ульты
+thickness_ult1 = 2 # ширина первой ульты
+
+
 a_gun = 60 # длина пушки
 b_gun = 20 # высота пушки
 speed_gun = 3 # скорость пушки
+rasst_gr_gun = 10 # расстояние пушки до нижней границы
+
+
 rad_rockets = 5 # радиус ракеты
 speed_rockets = 3 # скорость ракеты
-rad_shots = 5 # радиус выстрела
-speed_shots = 0.12 # скорость выстрела
-rad_bomb = 5 # радиус бомбы
+kolvo_rockets = mean_rockets # количество ракет в определенный момент времени, готовых к выстрелу.
 rad_rockets_anim = 5 # радиус анимации ракет
 rasst_rockets_anim = 10 # расстояние между анимацией ракет
+
+
+rad_shots = 5 # радиус выстрела
+speed_shots = 0.12 # скорость выстрела
+
+
+rad_bomb = 5 # радиус бомбы
+
+
 a_calibers = 4 # ширина калибра
 b_calibers = 10 # длина калибра
 boost_calibers = 1.02 # ускорение калибра
 speed_calibers = 4 # начальная скорость калибра
-time_ult1 = 0.25 * parametrs[3] # время действия первой ульты
-thickness_ult1 = 2 # ширина первой ульты
 height_caliber_ult = 100 # высота прямоугольника перезарядки калибра
 width_caliber_ult = 20 # ширина треугольника перезарядки калибра
-rasst_gr_gun = 10 # расстояние пушки до нижней границы
+
+
 coord_default = (-100, -100)
 
-'''Э'''
+
+time2 = 0 # Время мигания пушки
+rasst_score_screen = 20
+size_score = 40
+
+
+a_life = 20 # Размер сердечек
+rasst_life_x = 20
+rasst_life_y = 75
+rasst_m_life = 3 # Между жизнями
+
+
+'''Экран'''
+
 a_name = 500
 b_name = 100
 y_name = 50
@@ -167,20 +196,13 @@ frame_width = 20 # ширина черной рамки в заставке LEVE
 
 coord = coord_default
 coord_mouse = coord_default
-''''''
+
 
 y_menu = 300
 a_menu, b_menu = 200, 50
+
 y_exit_victory = 450
 a_exit_victory, b_exit_victory = 400, 50
+
 y_victory = 100
 a_victory, b_victory = 400, 100
-
-time2=0 # Время мигания пушки.
-rasst_score_screen = 20
-size_score = 40
-
-a_life = 20 # Размер сердечек
-rasst_life_x = 20
-rasst_life_y = 75
-rasst_m_life = 3 # Между жизнями
